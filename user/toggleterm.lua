@@ -3,6 +3,8 @@ if not status_ok then
   return
 end
 
+_G.terminal_count = 1
+
 toggleterm.setup({
   size = 20,
   open_mapping = [[<c-\>]],
@@ -30,10 +32,17 @@ function _G.set_terminal_keymaps()
   local opts = { noremap = true }
   vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "jk", [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], opts)
-  vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], opts)
-  vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], opts)
-  vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>ha]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>ja]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>ka]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>la]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-t>", [[<C-\><C-n>:lua open_new_terminal()<CR>]], opts)
+  vim.api.nvim_buf_set_keymap(0, "t", "<C-q>", [[<C-\><C-n>:bdelete!<CR>]], opts)
+end
+
+function _G.open_new_terminal()
+  _G.terminal_count = _G.terminal_count + 1
+  require("toggleterm.terminal").Terminal:new({ count = _G.terminal_count }):toggle()
 end
 
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
