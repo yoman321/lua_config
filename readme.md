@@ -1,7 +1,6 @@
 # My Lua Configs for LazyVim
 
-## Plugins Used
+## Additional Plugins Used
 ```
 toggleterm
-nvim-java
 ```
